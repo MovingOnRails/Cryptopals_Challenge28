@@ -12,5 +12,7 @@ int main() {
     
     bool messageTamperedDigest = authenticate(key, keylength, "Bye bye, world!",15, data);
     bool keyTamperedDigest = authenticate("Ultrasecret sauce", 17, text, textLength, data);
+
+
     return 0;
 }
