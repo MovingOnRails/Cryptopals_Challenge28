@@ -45,6 +45,12 @@ void SHA1(
     const char *str,
     uint32_t len);
 
+void SHA1WithStartingRegisters(char *hash_out,
+                          const char *str,
+                          uint32_t len,
+                          uint32_t reg1, uint32_t reg2, uint32_t reg3, uint32_t reg4, uint32_t reg5,
+                          uint64_t totalBytesProcessed);
+
 #if defined(__cplusplus)
 }
 #endif

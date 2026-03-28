@@ -299,3 +299,32 @@ void SHA1(
         SHA1Update(&ctx, (const unsigned char*)str + ii, 1);
     SHA1Final((unsigned char *)hash_out, &ctx);
 }
+
+void SHA1WithStartingRegisters(char *hash_out, const char *str, uint32_t len,
+                               uint32_t reg1, uint32_t reg2, uint32_t reg3, uint32_t reg4, uint32_t reg5,
+                               uint64_t total_bytes_processed) {
+    SHA1_CTX ctx;
+    SHA1Init(&ctx);
+
+    // 1. Set the registers
+    ctx.state[0] = reg1;
+    ctx.state[1] = reg2;
+    ctx.state[2] = reg3;
+    ctx.state[3] = reg4;
+    ctx.state[4] = reg5;
+
+    // 2. Set the bit count correctly
+    uint64_t total_bits = total_bytes_processed * 8;
+    ctx.count[0] = (uint32_t)(total_bits & 0xFFFFFFFF);
+    ctx.count[1] = (uint32_t)(total_bits >> 32);
+
+    // 3. Since Glue Padding completes a 512-bit block, 
+    // we must ensure the internal buffer index is 0.
+    // In your sha1.c, the index is calculated as: j = (j >> 3) & 63;
+    // By setting ctx.count to a multiple of 512, j becomes 0.
+
+    for (uint32_t ii = 0; ii < len; ii++)
+        SHA1Update(&ctx, (const unsigned char*)str + ii, 1);
+        
+    SHA1Final(hash_out, &ctx);
+}
