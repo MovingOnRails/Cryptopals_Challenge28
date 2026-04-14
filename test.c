@@ -12,7 +12,7 @@ int main() {
     // Attacker knows the originalMAC and can initialize the SHA1 operation from where it was left
 
     // Is the originalMAC the state of the hash function after processing the padding for the original message?
-    // It's the state AFTER processing the padding
+    // AFTER processing the padding
     
     // Extracting registers from the 20-byte SHA-1 hash using bit operations for big endianness compliance
     uint32_t reg1 = (originalMAC[0] << 24) | (originalMAC[1] << 16) | (originalMAC[2] << 8) | (originalMAC[3]);
